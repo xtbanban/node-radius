@@ -15,7 +15,9 @@
     "nodeunit": "~0.8.6"
   },
   "scripts": {
-    "test": "nodeunit test"
+    "test": "nodeunit test",
+    "server": "node ./examples/auth_server.js",
+    "client": "node ./examples/auth_client.js"
   },
   "keywords": [
     "radius"
