@@ -1,13 +1,15 @@
 // Example radius server doing authentication
 
-var radius = require('../lib/radius');
-var dgram = require("dgram");
+const radius = require('../lib/radius');
+const dgram = require("dgram");
 
-var secret = 'radius_secret';
-var server = dgram.createSocket("udp4");
+const secret = 'gxds';
+const server = dgram.createSocket("udp4");
 
 server.on("message", function (msg, rinfo) {
-  var code, username, password, packet;
+  console.log('========= message on! =========');
+
+  let code, username, password, ip_address, packet;
   try {
     packet = radius.decode({packet: msg, secret: secret});
   } catch (e) {
@@ -22,16 +24,18 @@ server.on("message", function (msg, rinfo) {
 
   username = packet.attributes['User-Name'];
   password = packet.attributes['User-Password'];
+  ip_address = packet.attributes['NAS-IP-Address'];
 
-  console.log('Access-Request for ' + username);
+  console.log('Access-Request for ' + username + ' from:' + ip_address);
 
-  if (username == 'jlpicard' && password == 'beverly123') {
-    code = 'Access-Accept';
+//  if (username == 'jlpicard' && password == 'beverly123') {
+  if (username == 'c40938f6d1c6') {
+      code = 'Access-Accept';
   } else {
     code = 'Access-Reject';
   }
 
-  var response = radius.encode_response({
+  const response = radius.encode_response({
     packet: packet,
     code: code,
     secret: secret
@@ -46,7 +50,7 @@ server.on("message", function (msg, rinfo) {
 });
 
 server.on("listening", function () {
-  var address = server.address();
+  const address = server.address();
   console.log("radius server listening " +
       address.address + ":" + address.port);
 });
