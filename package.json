@@ -16,7 +16,8 @@
   },
   "scripts": {
     "test": "nodeunit test",
-    "server": "node ./examples/auth_server.js",
+    "auth_server": "node ./examples/auth_server.js",
+    "account_server": "node ./examples/account_server.js",
     "client": "node ./examples/auth_client.js"
   },
   "keywords": [

@@ -17,26 +17,28 @@ server.on("message", function (msg, rinfo) {
     return;
   }
 
-  if (packet.code != 'Access-Request') {
+  if (packet.code != 'Accounting-Request') {
     console.log('unknown packet type: ', packet.code);
     return;
   }
 
   username = packet.attributes['User-Name'];
-  password = packet.attributes['User-Password'];
   ip_address = packet.attributes['NAS-IP-Address'];
+  acct_status = packet.attributes['Acct-Status-Type'];
+  event_time = packet.attributes['Event-Timestamp'];
 
-  console.log('Access-Request for ' + username + ' from:' + ip_address);
-
+  console.log('Accounting-Request for:' + username + ' from:' + ip_address + ' Status:' + acct_status + ' Time:' + event_time);
+  
   // 看一下数据包
   // console.log(packet)
 
-//  if (username == 'jlpicard' && password == 'beverly123') {
-  if (username == 'c40938f6d1c6') {
-      code = 'Access-Accept';
-  } else {
-    code = 'Access-Reject';
-  }
+  // 不响应，退出，但是 Stop 包要响应，否则交换机会不停地重发
+  // if (!(acct_status === 'Stop')) {
+  //   return
+  // }
+
+  // 收到立即响应
+  code = 'Accounting-Response';
 
   const response = radius.encode_response({
     packet: packet,
@@ -58,4 +60,4 @@ server.on("listening", function () {
       address.address + ":" + address.port);
 });
 
-server.bind(1812);
+server.bind(1813);
