@@ -1,4 +1,5 @@
 // Example radius server doing authentication
+require("dotenv").config()
 
 const radius = require('../lib/radius');
 const dgram = require("dgram");
