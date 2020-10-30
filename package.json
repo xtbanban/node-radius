@@ -25,6 +25,7 @@
   ],
   "dependencies": {
     "dotenv": "^8.2.0",
-    "mongoose": "^5.10.9"
+    "mongoose": "^5.10.9",
+    "silly-datetime": "^0.1.2"
   }
 }

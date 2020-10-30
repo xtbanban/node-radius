@@ -11,9 +11,9 @@ var packet_accepted = {
   secret: secret,
   identifier: 0,
   attributes: [
-    ['NAS-IP-Address', '10.5.5.5'],
-    ['User-Name', 'jlpicard'],
-    ['User-Password', 'beverly123']
+    ['NAS-IP-Address', '192.168.195.213'],
+    ['User-Name', 'c40938f6d1c6'],
+    ['User-Password', 'c40938f6d1c6']
   ]
 };
 
