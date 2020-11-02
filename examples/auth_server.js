@@ -1,4 +1,4 @@
-// Example radius server doing authentication
+// radius server doing authentication
 require("dotenv").config()
 
 const radius = require('../lib/radius');
@@ -19,13 +19,16 @@ server.on("message", async function (msg, rinfo) {
   let wherestr = { IP: rinfo.address }
   let sw = await Switch.findOne(wherestr)
   if (!sw) {
-    // 根据配置文件，是否自动增加交换机信息，默认不能用，需要设置共享密钥
+    // 根据配置文件，是否自动增加交换机信息，新增后默认不能用，需要设置共享密钥及改状态
     if (!(process.env.AUTH_AUTO_ADDSWICTH === '0')) {
       sw = await Switch.create({
         IP: rinfo.address,
         Secert: '',
         status: 0
       })
+      if (!(process.env.SHOW_AUTH_LOG === '0')) {
+        console.log('Auto add switch:' + sw.IP)
+      }
     }
     console.log('no set switch!')
     return
@@ -69,6 +72,9 @@ server.on("message", async function (msg, rinfo) {
         mac: username,
         status: process.env.AUTH_AUTO_ADDMAC_ENABLE
       })
+      if (!(process.env.SHOW_AUTH_LOG === '0')) {
+        console.log('Auto add mac:' + mac.mac + ' status:' + mac.status)
+      }
     }
     code = 'Access-Reject';
   } else {

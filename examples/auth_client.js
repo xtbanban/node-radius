@@ -4,7 +4,7 @@ var radius = require('../lib/radius');
 var dgram = require('dgram');
 var util = require('util');
 
-var secret = 'radius_secret';
+var secret = 'gxds';
 
 var packet_accepted = {
   code: "Access-Request",
@@ -22,7 +22,7 @@ var packet_rejected = {
   secret: secret,
   identifier: 1,
   attributes: [
-    ['NAS-IP-Address', '10.5.5.5'],
+    ['NAS-IP-Address', '192.168.195.213'],
     ['User-Name', 'egarak'],
     ['User-Password', 'tailoredfit']
   ]
@@ -33,7 +33,7 @@ var packet_wrong_secret = {
   secret: "wrong_secret",
   identifier: 2,
   attributes: [
-    ['NAS-IP-Address', '10.5.5.5'],
+    ['NAS-IP-Address', '192.168.195.213'],
     ['User-Name', 'riker'],
     ['User-Password', 'Riker-Omega-3']
   ]
