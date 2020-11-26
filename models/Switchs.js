@@ -10,6 +10,19 @@ const SwitchSchema = new db.Schema({
         type: String,
         require: true
     },
+    group: {
+        type: String,
+        default: '',
+        require: true
+    },
+    name: {
+        type: String,
+        require: false
+    },
+    model: {
+        type: String,
+        require: false
+    },
     status: {
         type: Number,
         default: 0,

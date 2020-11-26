@@ -66,10 +66,12 @@ server.on("message", async function (msg, rinfo) {
   wherestr = { mac: username }
   let mac = await Mac.findOne(wherestr)
   if (!mac) {
-    // 根据配置文件，是否自动增加mac地址，及设置状态
+    // 根据配置文件，是否自动增加mac地址，及设置状态，默认只能在本交换机上登录
     if (!(process.env.AUTH_AUTO_ADDMAC === '0')) {
       mac = await Mac.create({
         mac: username,
+        group: 'this',
+        sw_ip: rinfo.address,
         status: process.env.AUTH_AUTO_ADDMAC_ENABLE
       })
       if (!(process.env.SHOW_AUTH_LOG === '0')) {
@@ -80,6 +82,13 @@ server.on("message", async function (msg, rinfo) {
   } else {
     if (mac.status === 0) {
       code = 'Access-Reject';
+    } else {
+      if (!(mac.group === 'all')) {
+        if (!(mac.group === 'this' && mac.sw_ip === rinfo.address)) {
+          // 检查所属组中是否有此交换机
+          
+        }
+      }
     }
   }
 
